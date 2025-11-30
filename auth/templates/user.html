@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <h2><i class="bi bi-person-circle"></i> Panel de Usuario</h2>
+        <p class="text-muted">Bienvenido, {{ session.nombre }}</p>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5><i class="bi bi-file-text"></i> Mis Documentos</h5>
+                <p>Accede a tus documentos seguros</p>
+                <button class="btn btn-primary">Ver Documentos</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5><i class="bi bi-gear"></i> Configuración</h5>
+                <p>Gestiona tu cuenta</p>
+                <a href="{{ url_for('perfil') }}" class="btn btn-outline-primary">Mi Perfil</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

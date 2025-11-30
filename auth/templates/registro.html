@@ -1,0 +1,270 @@
+{% extends "base.html" %}
+
+{% block title %}Registro - SECURELINK{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card shadow-lg">
+            <div class="card-body p-5">
+                <!-- Header -->
+                <div class="text-center mb-4">
+                    <i class="bi bi-person-plus-fill text-primary" style="font-size: 4rem;"></i>
+                    <h2 class="mt-3 fw-bold">Crear Nueva Cuenta</h2>
+                    <p class="text-muted">Únete al sistema SECURELINK</p>
+                </div>
+                
+                <!-- Formulario de Registro -->
+                <form method="POST" action="{{ url_for('registro') }}" id="registroForm">
+                    
+                    <!-- Nombre Completo -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-person"></i> Nombre Completo *
+                        </label>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-lg" 
+                            name="nombre_completo" 
+                            placeholder="Ej: Juan Pérez García"
+                            required 
+                            autofocus>
+                    </div>
+                    
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-envelope"></i> Correo Electrónico *
+                        </label>
+                        <input 
+                            type="email" 
+                            class="form-control form-control-lg" 
+                            name="email" 
+                            placeholder="correo@ejemplo.com"
+                            required>
+                    </div>
+                    
+                    <!-- Usuario -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-at"></i> Nombre de Usuario *
+                        </label>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-lg" 
+                            name="username" 
+                            placeholder="usuario.ejemplo"
+                            pattern="[a-zA-Z0-9._-]+"
+                            title="Solo letras, números, puntos, guiones"
+                            required>
+                        <small class="text-muted">Solo letras, números y . _ -</small>
+                    </div>
+                    
+                    <!-- SELECCIÓN DE ROL - NUEVO -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-shield-check"></i> Rol de Usuario *
+                        </label>
+                        
+                        <div class="row g-3">
+                            <!-- Opción Admin -->
+                            <div class="col-md-4">
+                                <input 
+                                    type="radio" 
+                                    class="btn-check" 
+                                    name="rol" 
+                                    id="rol-admin" 
+                                    value="admin">
+                                <label class="btn btn-outline-danger w-100 py-3" for="rol-admin">
+                                    <i class="bi bi-gear-fill d-block mb-2" style="font-size: 2rem;"></i>
+                                    <strong>Admin</strong>
+                                    <small class="d-block text-muted">Acceso total</small>
+                                </label>
+                            </div>
+                            
+                            <!-- Opción Usuario (Seleccionado por defecto) -->
+                            <div class="col-md-4">
+                                <input 
+                                    type="radio" 
+                                    class="btn-check" 
+                                    name="rol" 
+                                    id="rol-usuario" 
+                                    value="usuario" 
+                                    checked>
+                                <label class="btn btn-outline-primary w-100 py-3" for="rol-usuario">
+                                    <i class="bi bi-person-fill d-block mb-2" style="font-size: 2rem;"></i>
+                                    <strong>Usuario</strong>
+                                    <small class="d-block text-muted">Acceso estándar</small>
+                                </label>
+                            </div>
+                            
+                            <!-- Opción Invitado -->
+                            <div class="col-md-4">
+                                <input 
+                                    type="radio" 
+                                    class="btn-check" 
+                                    name="rol" 
+                                    id="rol-invitado" 
+                                    value="invitado">
+                                <label class="btn btn-outline-secondary w-100 py-3" for="rol-invitado">
+                                    <i class="bi bi-eye-fill d-block mb-2" style="font-size: 2rem;"></i>
+                                    <strong>Invitado</strong>
+                                    <small class="d-block text-muted">Solo lectura</small>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Descripción del rol seleccionado -->
+                        <div class="alert alert-info mt-3" id="rol-descripcion">
+                            <strong>Usuario:</strong> Acceso estándar al sistema con todas las funcionalidades básicas.
+                        </div>
+                    </div>
+                    
+                    <!-- Contraseña -->
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-lock"></i> Contraseña *
+                        </label>
+                        <input 
+                            type="password" 
+                            class="form-control form-control-lg" 
+                            name="password" 
+                            id="password"
+                            minlength="8"
+                            required>
+                        <small class="text-muted">Mínimo 8 caracteres</small>
+                    </div>
+                    
+                    <!-- Confirmar Contraseña -->
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">
+                            <i class="bi bi-lock-fill"></i> Confirmar Contraseña *
+                        </label>
+                        <input 
+                            type="password" 
+                            class="form-control form-control-lg" 
+                            name="password_confirm" 
+                            id="password_confirm"
+                            minlength="8"
+                            required>
+                        <small id="password-match" class="text-muted"></small>
+                    </div>
+                    
+                    <!-- Botón de Registro -->
+                    <button type="submit" class="btn btn-primary btn-lg w-100 py-3 mb-3">
+                        <i class="bi bi-check-circle"></i> Crear Cuenta
+                    </button>
+                    
+                    <!-- Indicador de seguridad -->
+                    <div class="alert alert-success">
+                        <i class="bi bi-shield-lock-fill"></i>
+                        <strong>Seguridad:</strong> Tu contraseña será protegida con bcrypt (12 rounds)
+                    </div>
+                </form>
+                
+                <!-- Link para volver al login -->
+                <div class="text-center mt-4">
+                    <p class="text-muted mb-2">¿Ya tienes una cuenta?</p>
+                    <a href="{{ url_for('login') }}" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Volver al Login
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Información adicional -->
+        <div class="card mt-3">
+            <div class="card-body">
+                <h6 class="card-title"><i class="bi bi-info-circle"></i> Información sobre Roles</h6>
+                <ul class="mb-0">
+                    <li><strong>Admin:</strong> Gestión completa, ver todos los usuarios, estadísticas</li>
+                    <li><strong>Usuario:</strong> Acceso a funcionalidades principales del sistema</li>
+                    <li><strong>Invitado:</strong> Vista limitada, solo lectura de información pública</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Script para mostrar descripción del rol y validar contraseñas -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Descripciones de roles
+    const rolDescripciones = {
+        'admin': '<strong>Administrador:</strong> Acceso completo al sistema. Puede ver y gestionar todos los usuarios, acceder a estadísticas y configuraciones avanzadas.',
+        'usuario': '<strong>Usuario:</strong> Acceso estándar al sistema con todas las funcionalidades básicas. Puede gestionar su perfil y acceder a documentos.',
+        'invitado': '<strong>Invitado:</strong> Acceso limitado de solo lectura. Puede ver información pública pero no modificar datos del sistema.'
+    };
+    
+    // Actualizar descripción cuando cambia el rol
+    const roleRadios = document.querySelectorAll('input[name="rol"]');
+    const rolDescripcion = document.getElementById('rol-descripcion');
+    
+    roleRadios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            rolDescripcion.innerHTML = rolDescripciones[this.value];
+            rolDescripcion.className = 'alert alert-info mt-3';
+            
+            // Cambiar color del alert según el rol
+            if (this.value === 'admin') {
+                rolDescripcion.className = 'alert alert-danger mt-3';
+            } else if (this.value === 'usuario') {
+                rolDescripcion.className = 'alert alert-primary mt-3';
+            } else {
+                rolDescripcion.className = 'alert alert-secondary mt-3';
+            }
+        });
+    });
+    
+    // Validar que las contraseñas coincidan
+    const password = document.getElementById('password');
+    const passwordConfirm = document.getElementById('password_confirm');
+    const passwordMatch = document.getElementById('password-match');
+    
+    function checkPasswordMatch() {
+        if (passwordConfirm.value === '') {
+            passwordMatch.textContent = '';
+            passwordMatch.className = 'text-muted';
+            return;
+        }
+        
+        if (password.value === passwordConfirm.value) {
+            passwordMatch.textContent = '✓ Las contraseñas coinciden';
+            passwordMatch.className = 'text-success';
+        } else {
+            passwordMatch.textContent = '✗ Las contraseñas no coinciden';
+            passwordMatch.className = 'text-danger';
+        }
+    }
+    
+    password.addEventListener('input', checkPasswordMatch);
+    passwordConfirm.addEventListener('input', checkPasswordMatch);
+});
+</script>
+
+<style>
+/* Estilos adicionales para los botones de rol */
+.btn-check:checked + .btn-outline-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-check:checked + .btn-outline-primary {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.btn-check:checked + .btn-outline-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-outline-danger:hover,
+.btn-outline-primary:hover,
+.btn-outline-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: all 0.3s;
+}
+</style>
+{% endblock %}

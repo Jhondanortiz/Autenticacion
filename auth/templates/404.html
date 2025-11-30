@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Error 404 - Página no encontrada</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+</head>
+<body>
+    <div class="container" style="text-align:center; margin-top:100px;">
+        <h1 style="font-size:70px; color:#c0392b;">404</h1>
+        <h2>Página no encontrada</h2>
+        <p>La ruta que intentas acceder no existe.</p>
+
+        <a href="{{ url_for('login') }}" class="btn btn-primary">Ir al inicio</a>
+    </div>
+</body>
+</html>
